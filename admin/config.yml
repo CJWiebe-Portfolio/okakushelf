@@ -8,10 +8,11 @@ backend:
   name: github
   repo: CJWiebe-Portfolio/okakushelf
   branch: main
+  base_url: https://sveltia-cms-auth.cygnus-wiebe.workers.dev
   commit_messages:
-    update: 'Update {{collection}} “{{slug}}” via CMS'
-    uploadMedia: 'Upload “{{path}}” via CMS'
-    deleteMedia: 'Delete “{{path}}” via CMS'
+    update: "Update {{collection}} “{{slug}}” via CMS"
+    uploadMedia: "Upload “{{path}}” via CMS"
+    deleteMedia: "Delete “{{path}}” via CMS"
 
 # Uploaded photos are committed here; the path stored in figures.json is
 # relative (no leading slash) so it works on a GitHub Pages project URL.
@@ -48,11 +49,21 @@ collections:
             label_singular: Figure
             widget: list
             add_to_top: true
-            summary: '{{fields.name}} — {{fields.series}}'
+            summary: "{{fields.name}} — {{fields.series}}"
             fields:
               - { name: name, label: Name, widget: string }
-              - { name: series, label: Series / Franchise, widget: string, required: false }
-              - { name: sculptor, label: Sculptor / Manufacturer, widget: string, required: false }
+              - {
+                  name: series,
+                  label: Series / Franchise,
+                  widget: string,
+                  required: false,
+                }
+              - {
+                  name: sculptor,
+                  label: Sculptor / Manufacturer,
+                  widget: string,
+                  required: false,
+                }
               - name: scale
                 label: Scale
                 widget: string
@@ -63,7 +74,7 @@ collections:
                 widget: datetime
                 format: YYYY-MM-DD
                 time_format: false
-                default: '{{now}}'
+                default: "{{now}}"
               - name: description
                 label: Description
                 widget: text

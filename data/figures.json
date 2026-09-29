@@ -1,0 +1,22 @@
+[
+  {
+    "id": "seed-1",
+    "name": "Nendoroid Sample Figure",
+    "series": "Example Series",
+    "sculptor": "Studio Placeholder",
+    "scale": "Non-scale",
+    "dateAdded": "2026-01-15",
+    "description": "This is a placeholder entry so the gallery has something to show before you upload your own figures. Replace it (or delete it) from the admin page.",
+    "image": "https://placehold.co/600x800/1a1a2e/e94560?text=Add+Your+Photo"
+  },
+  {
+    "id": "seed-2",
+    "name": "Scale Figure Sample",
+    "series": "Example Series",
+    "sculptor": "Studio Placeholder",
+    "scale": "1/7 Scale",
+    "dateAdded": "2026-02-02",
+    "description": "A second placeholder to show how the grid looks with multiple pieces. Head to the admin page to add real photos.",
+    "image": "https://placehold.co/600x800/1a1a2e/0f3460?text=Add+Your+Photo"
+  }
+]

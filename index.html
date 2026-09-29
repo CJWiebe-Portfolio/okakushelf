@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Otaku Shelf</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="logo">Otaku<span>Shelf</span></div>
+      <nav class="site-nav">
+        <a href="index.html">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>The Shelf</h1>
+      <p>
+        A digital display case for the collection — click any figure for a
+        closer look, full details, and a zoomable photo.
+      </p>
+    </section>
+
+    <!-- Featured piece, set from the admin page. Hidden when nothing is marked featured. -->
+    <section class="featured" id="featuredSection" style="display: none">
+      <h2 class="section-heading">Featured piece</h2>
+      <article class="featured-card" id="featuredCard" tabindex="0">
+        <div class="featured-image">
+          <img id="featuredImage" src="" alt="" />
+        </div>
+        <div class="featured-details">
+          <div class="series" id="featuredSeries"></div>
+          <h3 id="featuredName"></h3>
+          <dl>
+            <dt>Sculptor</dt>
+            <dd id="featuredSculptor"></dd>
+            <dt>Scale</dt>
+            <dd id="featuredScale"></dd>
+          </dl>
+          <p class="description" id="featuredDescription"></p>
+          <span class="view-hint">Click for full details &amp; zoom →</span>
+        </div>
+      </article>
+    </section>
+
+    <h2 class="section-heading" id="restHeading" style="display: none">
+      More from the shelf
+    </h2>
+
+    <main class="gallery" id="gallery">
+      <!-- Figure cards are injected here by js/main.js -->
+      <p class="empty-state">Loading collection…</p>
+    </main>
+
+    <!-- Modal: zoom + details -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <button class="modal-close" id="modalClose" aria-label="Close">
+          &times;
+        </button>
+        <div class="modal-image" id="modalImageWrap">
+          <img id="modalImage" src="" alt="" />
+          <span class="zoom-hint">Click photo to zoom</span>
+        </div>
+        <div class="modal-details">
+          <div class="series" id="modalSeries"></div>
+          <h2 id="modalTitle"></h2>
+          <dl>
+            <dt>Sculptor</dt>
+            <dd id="modalSculptor"></dd>
+            <dt>Scale</dt>
+            <dd id="modalScale"></dd>
+            <dt>Added</dt>
+            <dd id="modalDate"></dd>
+          </dl>
+          <p class="description" id="modalDescription"></p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      Otaku Shelf — built with HTML, CSS &amp; vanilla JavaScript.
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -37,7 +37,9 @@ function escapeHtml(str = '') {
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Unknown';
-  const d = new Date(dateStr);
+  // Parse plain YYYY-MM-DD as a local date (new Date('2026-07-22') is UTC
+  // midnight, which shows as the previous day west of Greenwich).
+  const d = /^\d{4}-\d{2}-\d{2}$/.test(dateStr) ? new Date(`${dateStr}T00:00:00`) : new Date(dateStr);
   if (isNaN(d)) return dateStr;
   return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
 }
@@ -47,7 +49,7 @@ function renderGallery(figures) {
     galleryEl.innerHTML = `
       <p class="empty-state">
         No figures on the shelf yet. Head to the
-        <a href="admin.html">admin page</a> to add the first one.
+        <a href="admin/">admin page</a> to add the first one.
       </p>`;
     return;
   }
@@ -130,9 +132,8 @@ async function init() {
     console.error('Could not load figures:', err);
     galleryEl.innerHTML = `
       <p class="empty-state">
-        Couldn't load the collection. If you just set this site up, make sure
-        <code>js/firebase-config.js</code> has your real Firebase project config
-        (see README.md).
+        Couldn't load the collection. Check that <code>data/figures.json</code>
+        exists and is valid JSON (see README.md).
       </p>`;
     return;
   }

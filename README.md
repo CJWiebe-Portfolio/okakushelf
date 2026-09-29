@@ -2,100 +2,92 @@
 
 A figurine showcase site: dark "spotlight" gallery with one featured
 piece up top, click-to-zoom photos with per-figure details, an About
-page with contact/ordering info, and an admin page (behind real Firebase
-login) for adding, removing, and featuring figures. Figures and photos
-are stored in Firebase (Firestore + Storage), so anything an admin adds
-shows up for every visitor, on any device.
+page with contact/ordering info, and an admin at `/admin/` for adding,
+editing, removing, and featuring figures.
+
+There's no database or backend. Figures live in `data/figures.json` and
+photos in `assets/statues/web/`, both in this repo. The admin is
+[Sveltia CMS](https://github.com/sveltia/sveltia-cms), a Git-based CMS:
+every save is a commit to GitHub, and GitHub Pages republishes the site.
+It's free, with no card or third-party account needed beyond GitHub.
 
 ## Files
 
 ```
-otaku-shelf/
+okakushelf/
 ├── index.html            Gallery page (featured piece + grid) — what visitors see
-├── about.html             Contact info + how to order a figure (edit the placeholders)
-├── admin.html            Firebase-login-gated page for adding/removing/featuring figures
-├── css/styles.css        All styling (spotlight glow, modal, featured card, admin layout)
-├── js/firebase-config.js Your Firebase project config (fill this in — see below)
-├── js/data.js            Storage layer (Firestore + Storage)
+├── about.html            Contact info + how to order a figure (edit the placeholders)
+├── admin/index.html      Loads Sveltia CMS
+├── admin/config.yml      CMS settings: repo, fields, photo folder, image resizing
+├── admin.html            Redirects old /admin.html links to /admin/
+├── css/styles.css        All styling (spotlight glow, modal, featured card)
+├── js/data.js            Loads data/figures.json
 ├── js/main.js            Gallery rendering + featured piece + zoom/details modal logic
-├── js/admin.js           Admin sign-in + add/delete/feature logic
-├── data/figures.json     Example figure shape — not auto-loaded, just a reference
-├── firestore.rules       Firestore security rules (public read, admin-only write)
-├── storage.rules         Storage security rules (public read, admin-only write)
-└── firebase.json         Optional: lets `firebase deploy` push rules + hosting
+├── data/figures.json     The collection: { "figures": [ ... ] }
+└── assets/statues/web/   Web-sized photos used by the site (CMS uploads go here)
 ```
 
-## One-time Firebase setup
+## One-time setup
 
-You need a Firebase project before either page will work.
+1. **Push this repo to GitHub** (`CJWiebe-Portfolio/okakushelf`, branch `main`).
+2. **Turn on GitHub Pages:** repo → Settings → Pages → Source: *Deploy
+   from a branch* → `main` / `(root)` → Save. The site appears at
+   `https://cjwiebe-portfolio.github.io/okakushelf/` a minute or two later.
+   Note: GitHub Pages on a **private** repo requires a paid GitHub plan
+   (Pro/Team). On a free account, make the repo public or host elsewhere
+   (e.g. Cloudflare Pages or Netlify, both free and fine with private repos).
+3. **Give the client access:** repo → Settings → Collaborators → add
+   their GitHub account with **Write** access.
 
-1. **Create a project** at [console.firebase.google.com](https://console.firebase.google.com).
-2. **Add a Web app** (Project settings → General → "Your apps" → Web),
-   then copy the `firebaseConfig` values it gives you into
-   `js/firebase-config.js`.
-3. **Enable Authentication** → Sign-in method → turn on **Email/Password**.
-   Then go to the **Users** tab and add one user yourself — that email +
-   password is the admin login for `admin.html`. There's no sign-up form
-   on the site on purpose; only accounts you create by hand can sign in.
-4. **Enable Firestore Database** (start in production mode), then open the
-   **Rules** tab and paste in the contents of `firestore.rules`.
-5. **Enable Storage**, then open its **Rules** tab and paste in the
-   contents of `storage.rules`.
+## Signing in to the admin
 
-That's it — reads are public (the gallery works for anyone), writes
-require a signed-in admin, enforced server-side by those rules, not by
-anything in the client-side JS.
+Go to `…/okakushelf/admin/` and choose **Sign In with Token**.
 
-If you have the [Firebase CLI](https://firebase.google.com/docs/cli)
-installed, `firebase deploy --only firestore:rules,storage` will push
-both rules files for you instead of pasting them in by hand, and
-`firebase deploy --only hosting` can host the whole site for free.
+Each editor makes their own token once:
+
+1. GitHub → Settings → Developer settings → Personal access tokens →
+   **Fine-grained tokens** → Generate new token.
+2. Resource owner: `CJWiebe-Portfolio`. Repository access: *Only select
+   repositories* → `okakushelf`.
+3. Repository permissions: **Contents → Read and write** (Metadata:
+   read-only is added automatically).
+4. Pick an expiry, generate, and paste the token into the admin sign-in.
+
+The token stays in that browser. Treat it like a password; if it leaks,
+delete it on GitHub and make a new one.
+
+(Want a "Sign in with GitHub" button instead of tokens? That needs a
+small free OAuth helper — see Sveltia's docs for *Sveltia CMS
+Authenticator* on Cloudflare Workers — then add `base_url:` under
+`backend:` in `admin/config.yml`.)
+
+**Editing locally without a token:** in Chrome or Edge, open
+`http://localhost:8000/admin/` (see "Running it locally") and choose
+**Work with Local Repository**, then pick this folder. Changes are
+written to your files; commit and push them yourself.
+
+## Using the admin
+
+1. Open **Shelf → Figures**. Each figure is an item in the list.
+2. **Add:** click *Add Figure*, fill in the details, upload a photo, and
+   **Save**. Photos are resized to 1600 px and converted to WebP in the
+   browser before upload, so phone photos are fine.
+3. **Feature:** tick *Feature on the home page* on one figure (untick the
+   old one). If several are ticked, the newest by date wins.
+4. **Remove / reorder:** use the item's menu in the list, then Save.
+5. Changes go live after GitHub Pages redeploys — usually 1–2 minutes.
+   Visitors may need a refresh.
+
+Removing a figure doesn't delete its photo; clean up unused photos from
+the CMS's **Assets** tab if you like.
 
 ## Running it locally
 
-Open `index.html` in a browser — no build step, no npm install. (If your
-browser blocks `fetch` on local files, run a tiny local server instead,
-e.g. `python3 -m http.server` from this folder, then visit
-`http://localhost:8000`.) You do need the Firebase setup above completed
-first, since both pages talk to Firestore on load.
-
-## Using the admin page
-
-1. Go to `admin.html` and sign in with the email/password you created in
-   the Firebase console.
-2. Fill in the figure's details and choose a photo. Check "Feature this
-   piece on the home page" if you want it to be the one shown up top on
-   `index.html`, then hit "Add to shelf". The photo uploads to Firebase
-   Storage and the record is saved to Firestore.
-3. New figures appear immediately for every visitor, everywhere — not
-   just your browser.
-4. In "Current figures", each row has a **Feature/Unfeature** button.
-   Only one figure can be featured at a time — marking a new one
-   automatically unmarks the previous one. If nothing is featured, the
-   home page just shows the grid with no featured section.
+No build step. From this folder run `python3 -m http.server` and visit
+`http://localhost:8000` (opening `index.html` directly won't work,
+because browsers block `fetch` on local files).
 
 ## The About page
 
-`about.html` has two sections with placeholder content you should edit
-directly in the HTML before going live:
-
-- **Get in touch** — email and social links.
-- **Ordering a figure** — a short explainer plus a button linking to
-  wherever figures are actually sold (Etsy, Shopify, a commission form,
-  etc.). This site is a showcase, not a checkout, so that link is the
-  bridge to your real store.
-
-Both are marked with `<!-- EDIT ME -->` comments in the file.
-
-## Also worth doing before this goes live to a client
-
-- Replace the two placeholder-shaped entries described in
-  `data/figures.json` with the real starting lineup, added through the
-  admin page.
-- Fill in the real contact and shop details in `about.html` (see above).
-- Add a real favicon and update the page `<title>`/hero copy in `index.html`.
-- Consider compressing photos before upload to keep Storage usage (and
-  load times) down — Firebase's free tier has generous but finite limits.
-- If you ever need more than one admin, just add more users in
-  Authentication → Users; the rules already treat any signed-in user as
-  an admin.
+`about.html` has placeholder contact and ordering details marked with
+`<!-- EDIT ME -->` comments — fill those in before going live.

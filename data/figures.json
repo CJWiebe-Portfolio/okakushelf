@@ -1,22 +1,114 @@
-[
-  {
-    "id": "seed-1",
-    "name": "Nendoroid Sample Figure",
-    "series": "Example Series",
-    "sculptor": "Studio Placeholder",
-    "scale": "Non-scale",
-    "dateAdded": "2026-01-15",
-    "description": "This is a placeholder entry so the gallery has something to show before you upload your own figures. Replace it (or delete it) from the admin page.",
-    "image": "https://placehold.co/600x800/1a1a2e/e94560?text=Add+Your+Photo"
-  },
-  {
-    "id": "seed-2",
-    "name": "Scale Figure Sample",
-    "series": "Example Series",
-    "sculptor": "Studio Placeholder",
-    "scale": "1/7 Scale",
-    "dateAdded": "2026-02-02",
-    "description": "A second placeholder to show how the grid looks with multiple pieces. Head to the admin page to add real photos.",
-    "image": "https://placehold.co/600x800/1a1a2e/0f3460?text=Add+Your+Photo"
-  }
-]
+{
+  "figures": [
+    {
+      "name": "Clicker",
+      "series": "The Last of Us",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-03-06",
+      "description": "An infected Clicker mid-lurch, fungal growth splitting its head open, on a spore-covered base.",
+      "image": "assets/statues/web/20260306_135423.jpg",
+      "featured": false
+    },
+    {
+      "name": "Blonde Girl with Tentacles",
+      "series": "",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-05-19",
+      "description": "A blonde girl in a black-and-white outfit, wrapped in purple tentacles and holding a staff, perched on a rocky base.",
+      "image": "assets/statues/web/20260519_171224.jpg",
+      "featured": false
+    },
+    {
+      "name": "Elphelt Valentine",
+      "series": "Guilty Gear",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-05-30",
+      "description": "Mid-leap between two street lamps, blade raised overhead.",
+      "image": "assets/statues/web/20260530_091804.jpg",
+      "featured": false
+    },
+    {
+      "name": "Red Dragon Girl",
+      "series": "",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-06-06",
+      "description": "A red-haired, horned dragon girl with spiked wings and tail, coiled over a grey stone outcrop.",
+      "image": "assets/statues/web/20260606_145738.jpg",
+      "featured": false
+    },
+    {
+      "name": "Cynthia & Garchomp",
+      "series": "Pokémon",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-06-23",
+      "description": "The Sinnoh Champion in her black coat, Poké Ball in hand, with Garchomp lunging behind her.",
+      "image": "assets/statues/web/20260623_141348.jpg",
+      "featured": false
+    },
+    {
+      "name": "Geralt of Rivia",
+      "series": "The Witcher 3: Wild Hunt",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-07-05",
+      "description": "Geralt in his Griffin armour, sword drawn, standing over a slain griffin's head.",
+      "image": "assets/statues/web/20260705_215448.jpg",
+      "featured": false
+    },
+    {
+      "name": "Akali",
+      "series": "League of Legends",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-07-07",
+      "description": "The Rogue Assassin in her green outfit, kama and kunai at the ready.",
+      "image": "assets/statues/web/20260707_155726.jpg",
+      "featured": false
+    },
+    {
+      "name": "Misty & Gyarados",
+      "series": "Pokémon",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-07-16",
+      "description": "Misty on a dock with Psyduck and friends while a red Gyarados rears up out of the water behind her.",
+      "image": "assets/statues/web/20260716_202509.jpg",
+      "featured": false
+    },
+    {
+      "name": "Ramlethal Valentine",
+      "series": "Guilty Gear",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-07-20",
+      "description": "Cloak flaring as she strides across her greatswords.",
+      "image": "assets/statues/web/20260720_161810.jpg",
+      "featured": false
+    },
+    {
+      "name": "Deedlit",
+      "series": "Record of Lodoss War",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-07-22",
+      "description": "The high elf with a white bird in her hand, green cloak sweeping beneath a twisted tree.",
+      "image": "assets/statues/web/20260722_110724.jpg",
+      "featured": false
+    },
+    {
+      "name": "Spirit Blossom Ahri",
+      "series": "League of Legends",
+      "sculptor": "",
+      "scale": "",
+      "dateAdded": "2026-08-10",
+      "description": "Ahri reclining on a lotus pond, nine blue tails fanned out around her and a spirit orb in her hand.",
+      "image": "assets/statues/web/20260810_211413.jpg",
+      "featured": true
+    }
+  ]
+}

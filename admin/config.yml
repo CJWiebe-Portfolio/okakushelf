@@ -1,0 +1,77 @@
+# Sveltia CMS config for Otaku Shelf.
+# Docs: https://github.com/sveltia/sveltia-cms
+#
+# Every save in the admin becomes a commit on the `main` branch of the
+# GitHub repo below; GitHub Pages then redeploys the site (about 1–2 min).
+
+backend:
+  name: github
+  repo: CJWiebe-Portfolio/okakushelf
+  branch: main
+  commit_messages:
+    update: 'Update {{collection}} “{{slug}}” via CMS'
+    uploadMedia: 'Upload “{{path}}” via CMS'
+    deleteMedia: 'Delete “{{path}}” via CMS'
+
+# Uploaded photos are committed here; the path stored in figures.json is
+# relative (no leading slash) so it works on a GitHub Pages project URL.
+media_folder: assets/statues/web
+public_folder: assets/statues/web
+
+# Resize + compress photos in the browser before they're committed,
+# so phone photos don't bloat the repo.
+media_libraries:
+  default:
+    config:
+      max_file_size: 20000000
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 1600
+          height: 1600
+
+collections:
+  - name: shelf
+    label: Shelf
+    description: The figures shown in the gallery.
+    editor:
+      preview: false
+    files:
+      - name: figures
+        label: Figures
+        file: data/figures.json
+        format: json
+        fields:
+          - name: figures
+            label: Figures
+            label_singular: Figure
+            widget: list
+            add_to_top: true
+            summary: '{{fields.name}} — {{fields.series}}'
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: series, label: Series / Franchise, widget: string, required: false }
+              - { name: sculptor, label: Sculptor / Manufacturer, widget: string, required: false }
+              - name: scale
+                label: Scale
+                widget: string
+                required: false
+                hint: e.g. 1/7 Scale, Nendoroid, Non-scale
+              - name: dateAdded
+                label: Date added
+                widget: datetime
+                format: YYYY-MM-DD
+                time_format: false
+                default: '{{now}}'
+              - name: description
+                label: Description
+                widget: text
+                required: false
+                hint: Notes, backstory, condition, where you got it, etc.
+              - { name: image, label: Photo, widget: image, choose_url: false }
+              - name: featured
+                label: Feature on the home page
+                widget: boolean
+                default: false
+                hint: Only one figure should be featured — if several are ticked, the newest one wins.

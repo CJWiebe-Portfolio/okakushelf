@@ -1,16 +1,34 @@
 /* =========================================================
-   Otaku Shelf — Spotlight theme
-   Dark gallery background with a "museum spotlight" glow
-   that follows each card on hover.
+   Otaku Shelf CSS
+   2026-September-29th
+   This is the CSS style for the website.
+
+   website colour scheme is based on the following palette:
+   Primary:
+      - Red: #DA0113
+      - Black: #040405
+      - White: #F7F6F6
+    Monochromatic:
+      - #DA0113
+      - #A6212C
+      - #732E34
+      - #402628
+      - #33292A
+    Shades:
+      - #DA0113
+      - #B5000F
+      - #8C000C
+      - #630008
+      - #3B0005  
    ========================================================= */
 
 :root {
-  --bg: #0b0b12;
+  --bg: #040405;
   --bg-elevated: #14141f;
   --card-bg: #1a1a2e;
-  --accent: #e94560;
-  --accent-soft: rgba(233, 69, 96, 0.35);
-  --text: #f2f2f5;
+  --accent: #da0113;
+  --accent-soft: rgba(218, 1, 19, 0.35);
+  --text: #f7f6f6;
   --text-dim: #9a9ab0;
   --border: #2b2b40;
   --radius: 14px;
@@ -40,8 +58,8 @@ body {
 body {
   min-height: 100vh;
   background-image:
-    radial-gradient(circle at 20% 0%, rgba(233, 69, 96, 0.08), transparent 45%),
-    radial-gradient(circle at 80% 20%, rgba(15, 52, 96, 0.25), transparent 50%);
+    radial-gradient(circle at 20% 0%, rgba(218, 1, 19, 0.08), transparent 45%),
+    radial-gradient(circle at 80% 20%, rgba(218, 1, 19, 0.25), transparent 50%);
 }
 
 a {
@@ -60,9 +78,20 @@ a {
 }
 
 .site-header .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  text-decoration: none;
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.03em;
+}
+
+.site-header .logo-icon {
+  height: 32px;
+  width: auto;
+  display: block;
 }
 
 .site-header .logo span {

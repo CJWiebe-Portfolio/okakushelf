@@ -11,8 +11,23 @@
 */
 
 const FIGURES_URL = 'data/figures.json';
+const REFERENCE_ITEMS_URL = 'data/reference-items.json';
 
 const DataStore = {
+  /** Reference objects (fridge, banana, ...) used for size comparisons. Never throws. */
+  async getReferenceItems() {
+    try {
+      const res = await fetch(REFERENCE_ITEMS_URL, { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`${res.status}`);
+      const data = await res.json();
+      return Compare.normalizeItems(Array.isArray(data) ? data : data.items);
+    } catch (err) {
+      // The gallery works fine without comparisons, so just skip them.
+      console.warn('Could not load reference items:', err);
+      return [];
+    }
+  },
+
   /** Load all figures, newest first. Each gets a stable-per-load `id`. */
   async getAll() {
     // no-cache: always revalidate, so new CMS edits show up once Pages redeploys.

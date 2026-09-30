@@ -3,11 +3,12 @@
    2026-September-29th
    This is the CSS style for the website.
 
-   website colour scheme is based on the following palette:
+   Website Colour scheme is based on the following palette:
    Primary:
       - Red: #DA0113
       - Black: #040405
       - White: #F7F6F6
+        - Dimmed: #eeeeee
     Monochromatic:
       - #DA0113
       - #A6212C
@@ -22,17 +23,40 @@
       - #3B0005  
    ========================================================= */
 
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@500;700&display=swap");
+
 :root {
-  --bg: #040405;
-  --bg-elevated: #14141f;
-  --card-bg: #1a1a2e;
-  --accent: #da0113;
+  /* Palette */
+  --red: #da0113;
+  --black: #040405;
+  --white: #f7f6f6;
+  --white-dim: #eeeeee;
+  --mono-1: #a6212c;
+  --mono-2: #732e34;
+  --mono-3: #402628;
+  --mono-4: #33292a;
+  --shade-1: #b5000f;
+  --shade-2: #8c000c;
+  --shade-3: #630008;
+  --shade-4: #3b0005;
+
+  /* Roles */
+  --bg: var(--black);
+  --bg-elevated: var(--mono-4);
+  --card-bg: var(--shade-4);
+  --accent: var(--red);
   --accent-soft: rgba(218, 1, 19, 0.35);
-  --text: #f7f6f6;
-  --text-dim: #9a9ab0;
-  --border: #2b2b40;
+  --danger: var(--mono-1);
+  --overlay: rgba(4, 4, 5, 0.85);
+  --text: var(--white);
+  --text-dim: var(--white-dim);
+  --border: var(--mono-4);
   --radius: 14px;
   --max-width: 1200px;
+  --font-heading: "Zen Maru Gothic", "Noto Sans JP", system-ui, sans-serif;
+  --font-body:
+    "Noto Sans JP", system-ui, -apple-system, Roboto, Helvetica, Arial,
+    sans-serif;
 }
 
 * {
@@ -45,14 +69,17 @@ body {
   padding: 0;
   background: var(--bg);
   color: var(--text);
-  font-family:
-    "Segoe UI",
-    system-ui,
-    -apple-system,
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.site-header .logo {
+  font-family: var(--font-heading);
 }
 
 body {
@@ -171,8 +198,9 @@ a {
 }
 
 .featured-image {
+  position: relative;
   aspect-ratio: 4 / 3;
-  background: #0f0f18;
+  background: var(--bg);
   overflow: hidden;
 }
 
@@ -292,7 +320,7 @@ a {
   z-index: 1;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  background: #0f0f18;
+  background: var(--bg);
 }
 
 .figure-card img {
@@ -305,6 +333,22 @@ a {
 
 .figure-card:hover img {
   transform: scale(1.06);
+}
+
+/* "3 photos" badge on cards that have more than one photo. */
+.photo-count {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 2;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text);
+  background: rgba(4, 4, 5, 0.7);
+  border: 1px solid var(--mono-2);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  pointer-events: none;
 }
 
 .figure-card .card-body {
@@ -344,7 +388,7 @@ a {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(5, 5, 10, 0.85);
+  background: var(--overlay);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -371,33 +415,129 @@ a {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 30px 80px rgba(4, 4, 5, 0.6);
+}
+
+.modal-media {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--bg);
 }
 
 .modal-image {
   position: relative;
-  background: #05050a;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: var(--bg);
   cursor: zoom-in;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
 
 .modal-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  /* Only the scale animates; the origin follows the pointer instantly. */
   transition: transform 0.25s ease;
   transform-origin: center center;
 }
 
 .modal-image.zoomed {
   cursor: zoom-out;
+  /* Let a finger drag pan the photo instead of scrolling the page. */
+  touch-action: none;
 }
 
 .modal-image.zoomed img {
-  transform: scale(2);
+  transform: scale(2.5);
+}
+
+.photo-nav {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(4, 4, 5, 0.55);
+  color: var(--text);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-nav.prev {
+  left: 0.75rem;
+}
+
+.photo-nav.next {
+  right: 0.75rem;
+}
+
+.photo-nav:hover,
+.photo-nav:focus-visible {
+  background: var(--accent);
+}
+
+.modal-image.has-multiple .photo-nav {
+  display: flex;
+}
+
+/* Hide the arrows while zoomed so they don't cover the photo. */
+.modal-image.zoomed .photo-nav {
+  display: none;
+}
+
+.photo-thumbs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  overflow-x: auto;
+  border-top: 1px solid var(--border);
+}
+
+.photo-thumbs[hidden] {
+  display: none;
+}
+
+.photo-thumbs button {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-elevated);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.photo-thumbs button:hover,
+.photo-thumbs button.active {
+  opacity: 1;
+}
+
+.photo-thumbs button.active {
+  border-color: var(--accent);
+}
+
+.photo-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .modal-image .zoom-hint {
@@ -407,7 +547,7 @@ a {
   transform: translateX(-50%);
   font-size: 0.75rem;
   color: var(--text-dim);
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(4, 4, 5, 0.55);
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
   pointer-events: none;
@@ -458,7 +598,7 @@ a {
   top: 1rem;
   right: 1rem;
   z-index: 5;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(4, 4, 5, 0.5);
   border: none;
   color: var(--text);
   width: 36px;
@@ -479,10 +619,297 @@ a {
   .modal {
     grid-template-columns: 1fr;
     max-height: 95vh;
+    /* The whole card scrolls on phones, so the size-comparison panel is reachable. */
+    overflow-y: auto;
+  }
+  .modal-details {
+    overflow-y: visible;
   }
   .modal-image {
+    flex: none;
     aspect-ratio: 4 / 3;
   }
+}
+
+/* ---------- Size comparison ---------- */
+
+[hidden] {
+  display: none !important;
+}
+
+.compare-line {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.featured-details .compare-line {
+  margin: 0.25rem 0 0.75rem;
+  font-size: 0.9rem;
+}
+
+.compare {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.compare-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.compare-head h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.seg-btn {
+  background: transparent;
+  color: var(--text-dim);
+  border: none;
+  padding: 0.3rem 0.75rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.seg-btn + .seg-btn {
+  border-left: 1px solid var(--border);
+}
+
+.seg-btn:hover {
+  color: var(--text);
+}
+
+.seg-btn[aria-pressed='true'] {
+  background: var(--accent);
+  color: #fff;
+}
+
+.compare-dims {
+  margin-top: 0.75rem;
+}
+
+.compare-stage {
+  margin-top: 0.9rem;
+  background: #05050a;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+.compare-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+}
+
+.cmp-grid {
+  stroke: rgba(255, 255, 255, 0.07);
+  stroke-width: 1;
+}
+
+.cmp-axis {
+  stroke: var(--text-dim);
+  stroke-width: 1;
+}
+
+.cmp-tick,
+.cmp-unit {
+  fill: var(--text-dim);
+  font-size: 10px;
+}
+
+.cmp-unit {
+  font-weight: 600;
+}
+
+.cmp-fig {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.cmp-item {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke: var(--text-dim);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.cmp-val {
+  fill: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cmp-name {
+  fill: var(--text-dim);
+  font-size: 11px;
+}
+
+.compare-caption {
+  margin: 0.9rem 0 0.2rem;
+  line-height: 1.5;
+}
+
+.compare-ratio,
+.compare-hint {
+  margin: 0.2rem 0;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.compare-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+.compare-controls label {
+  color: var(--text-dim);
+}
+
+.compare-select,
+.compare-form input[type='text'],
+.compare-form input[type='number'] {
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem 0.5rem;
+  font: inherit;
+  font-size: 0.85rem;
+  min-width: 0;
+}
+
+.compare-select {
+  flex: 1 1 10rem;
+  max-width: 100%;
+}
+
+.btn-small {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btn-small:hover {
+  border-color: var(--accent);
+}
+
+.compare-person {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+  font-size: 0.85rem;
+}
+
+.compare-person label {
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.compare-person input[type='range'] {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--accent);
+}
+
+.compare-person output {
+  min-width: 4.5rem;
+  text-align: right;
+}
+
+.compare-custom {
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+}
+
+.compare-custom summary {
+  cursor: pointer;
+  color: var(--text-dim);
+}
+
+.compare-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.compare-form input[type='text'] {
+  flex: 2 1 8rem;
+}
+
+.compare-form input[type='number'] {
+  flex: 1 1 5rem;
+}
+
+.compare-scale {
+  margin-top: 1.25rem;
+}
+
+.compare-scale h4 {
+  margin: 0 0 0.2rem;
+  font-size: 0.9rem;
+}
+
+.scale-chips {
+  list-style: none;
+  padding: 0;
+  margin: 0.6rem 0 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.scale-chips li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.scale-chips li strong {
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.scale-chips li.on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.scale-chips li.on span {
+  color: var(--text);
 }
 
 /* ---------- Footer ---------- */
@@ -499,7 +926,7 @@ a {
 
 .btn {
   background: var(--accent);
-  color: #fff;
+  color: var(--text);
   border: none;
   padding: 0.65rem 1.3rem;
   border-radius: 8px;
@@ -519,7 +946,7 @@ a {
 }
 
 .btn.danger {
-  background: #b0203a;
+  background: var(--danger);
 }
 
 /* ---------- About page ---------- */

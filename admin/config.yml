@@ -69,6 +69,27 @@ collections:
                 widget: string
                 required: false
                 hint: e.g. 1/7 Scale, Nendoroid, Non-scale
+              - name: height_mm
+                label: Height (mm)
+                widget: number
+                value_type: float
+                min: 1
+                required: false
+                hint: Whole figure including the base, in millimetres (250 = 25 cm). Adds size comparisons to the site.
+              - name: width_mm
+                label: Width (mm)
+                widget: number
+                value_type: float
+                min: 1
+                required: false
+                hint: Optional. Widest point, in millimetres.
+              - name: depth_mm
+                label: Depth (mm)
+                widget: number
+                value_type: float
+                min: 1
+                required: false
+                hint: Optional. Front to back, in millimetres.
               - name: dateAdded
                 label: Date added
                 widget: datetime
@@ -80,9 +101,60 @@ collections:
                 widget: text
                 required: false
                 hint: Notes, backstory, condition, where you got it, etc.
-              - { name: image, label: Photo, widget: image, choose_url: false }
+              - { name: image, label: Main photo, widget: image, choose_url: false }
+              - name: photos
+                label: More photos
+                label_singular: Photo
+                widget: list
+                required: false
+                hint: Optional extra angles or close-ups. Shown after the main photo.
+                field: { name: photo, label: Photo, widget: image, choose_url: false }
               - name: featured
                 label: Feature on the home page
                 widget: boolean
                 default: false
                 hint: Only one figure should be featured — if several are ticked, the newest one wins.
+      - name: reference_items
+        label: Comparison items
+        file: data/reference-items.json
+        format: json
+        fields:
+          - name: items
+            label: Items
+            label_singular: Item
+            widget: list
+            add_to_top: true
+            summary: "{{fields.name}}"
+            hint: Everyday objects that figures are compared against. Sizes are in millimetres; give at least one of height, width or depth.
+            fields:
+              - { name: name, label: Name, widget: string }
+              - name: height_mm
+                label: Height (mm)
+                widget: number
+                value_type: float
+                min: 0.1
+                required: false
+              - name: width_mm
+                label: Width (mm)
+                widget: number
+                value_type: float
+                min: 0.1
+                required: false
+              - name: depth_mm
+                label: Depth (mm)
+                widget: number
+                value_type: float
+                min: 0.1
+                required: false
+              - name: band
+                label: Size band
+                widget: select
+                options: [tiny, small, medium, large, xlarge, huge]
+                default: small
+                hint: "Figures are compared with items in their own band and the next one up. Roughly: tiny under 4 cm, small under 20 cm, medium under 50 cm, large under 1.6 m, xlarge under 3 m, huge beyond."
+              - name: adjustable
+                label: Adjustable height
+                widget: boolean
+                default: false
+                required: false
+                hint: Shows a slider so visitors can change this item's height (used for "Person").

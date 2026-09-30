@@ -6,14 +6,19 @@
     <title>Otaku Shelf</title>
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="icon" href="assets/icons/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/icons/favicon-32.png"
+    />
     <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
   </head>
   <body>
     <header class="site-header">
       <a class="logo" href="index.html">
         <img src="assets/icons/favicon-32.png" alt="" class="logo-icon" />
-        Otaku<span>Shelf</span>
+        Otaku <span>Shelf</span> オタクシェルフ
       </a>
       <nav class="site-nav">
         <a href="index.html">Gallery</a>
@@ -26,7 +31,7 @@
       <h1>The Shelf</h1>
       <p>
         A digital display case for the collection — click any figure for a
-        closer look, full details, and a zoomable photo.
+        closer look, full details, and zoomable photos.
       </p>
     </section>
 
@@ -36,6 +41,7 @@
       <article class="featured-card" id="featuredCard" tabindex="0">
         <div class="featured-image">
           <img id="featuredImage" src="" alt="" />
+          <span class="photo-count" id="featuredPhotoCount" hidden></span>
         </div>
         <div class="featured-details">
           <div class="series" id="featuredSeries"></div>
@@ -45,7 +51,10 @@
             <dd id="featuredSculptor"></dd>
             <dt>Scale</dt>
             <dd id="featuredScale"></dd>
+            <dt class="size-row">Size</dt>
+            <dd class="size-row" id="featuredSize"></dd>
           </dl>
+          <p class="compare-line" id="featuredCompare"></p>
           <p class="description" id="featuredDescription"></p>
           <span class="view-hint">Click for full details &amp; zoom →</span>
         </div>
@@ -72,9 +81,18 @@
         <button class="modal-close" id="modalClose" aria-label="Close">
           &times;
         </button>
-        <div class="modal-image" id="modalImageWrap">
-          <img id="modalImage" src="" alt="" />
-          <span class="zoom-hint">Click photo to zoom</span>
+        <div class="modal-media">
+          <div class="modal-image" id="modalImageWrap">
+            <img id="modalImage" src="" alt="" draggable="false" />
+            <button class="photo-nav prev" id="photoPrev" aria-label="Previous photo">
+              &#8249;
+            </button>
+            <button class="photo-nav next" id="photoNext" aria-label="Next photo">
+              &#8250;
+            </button>
+            <span class="zoom-hint" id="zoomHint">Click photo to zoom</span>
+          </div>
+          <div class="photo-thumbs" id="photoThumbs"></div>
         </div>
         <div class="modal-details">
           <div class="series" id="modalSeries"></div>
@@ -84,10 +102,13 @@
             <dd id="modalSculptor"></dd>
             <dt>Scale</dt>
             <dd id="modalScale"></dd>
+            <dt class="size-row">Size</dt>
+            <dd class="size-row" id="modalSize"></dd>
             <dt>Added</dt>
             <dd id="modalDate"></dd>
           </dl>
           <p class="description" id="modalDescription"></p>
+          <div id="modalCompare" hidden></div>
         </div>
       </div>
     </div>
@@ -96,7 +117,9 @@
       Otaku Shelf — built with HTML, CSS &amp; vanilla JavaScript.
     </footer>
 
+    <script src="js/compare.js"></script>
     <script src="js/data.js"></script>
+    <script src="js/compare-ui.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

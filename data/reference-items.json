@@ -1,0 +1,38 @@
+{
+  "items": [
+    { "name": "Loonie", "height_mm": 26.5, "depth_mm": 1.95, "band": "tiny" },
+    { "name": "Toonie", "height_mm": 28, "depth_mm": 1.75, "band": "tiny" },
+    { "name": "LEGO brick (2x4)", "height_mm": 9.6, "width_mm": 31.8, "depth_mm": 15.8, "band": "tiny" },
+
+    { "name": "Credit card", "height_mm": 53.98, "width_mm": 85.6, "depth_mm": 0.76, "band": "small" },
+    { "name": "AA battery", "height_mm": 50.5, "width_mm": 14.5, "band": "small" },
+    { "name": "Coffee mug", "height_mm": 95, "band": "small" },
+    { "name": "Soda can", "height_mm": 122, "width_mm": 66, "band": "small" },
+    { "name": "Smartphone", "height_mm": 150, "width_mm": 72, "depth_mm": 8, "band": "small" },
+    { "name": "Banana", "height_mm": 180, "band": "small" },
+    { "name": "Pencil", "height_mm": 190, "width_mm": 7, "band": "small" },
+
+    { "name": "A4 sheet", "height_mm": 297, "width_mm": 210, "band": "medium" },
+    { "name": "Basketball", "height_mm": 240, "band": "medium" },
+    { "name": "Bowling pin", "height_mm": 380, "band": "medium" },
+
+    { "name": "Baseball bat", "height_mm": 860, "band": "large" },
+    { "name": "Acoustic guitar", "height_mm": 1000, "width_mm": 380, "depth_mm": 100, "band": "large" },
+    { "name": "Broom", "height_mm": 1300, "band": "large" },
+    { "name": "Hockey stick", "height_mm": 1520, "band": "large" },
+    { "name": "Kitchen counter", "height_mm": 914, "depth_mm": 610, "band": "large" },
+    { "name": "Dining chair", "height_mm": 900, "width_mm": 450, "depth_mm": 500, "band": "large" },
+    { "name": "Dishwasher", "height_mm": 850, "width_mm": 600, "depth_mm": 600, "band": "large" },
+    { "name": "Bathtub", "height_mm": 400, "width_mm": 1524, "depth_mm": 762, "band": "large" },
+
+    { "name": "Person", "height_mm": 1700, "band": "xlarge", "adjustable": true },
+    { "name": "Interior door", "height_mm": 2032, "width_mm": 813, "depth_mm": 35, "band": "xlarge" },
+    { "name": "Fridge", "height_mm": 1750, "width_mm": 700, "depth_mm": 700, "band": "xlarge" },
+    { "name": "3-seat couch", "height_mm": 850, "width_mm": 2000, "depth_mm": 900, "band": "xlarge" },
+    { "name": "Queen bed", "width_mm": 1524, "depth_mm": 2032, "band": "xlarge" },
+    { "name": "Bicycle", "height_mm": 1000, "width_mm": 1700, "band": "xlarge" },
+
+    { "name": "Sedan", "height_mm": 1450, "width_mm": 1800, "depth_mm": 4700, "band": "huge" },
+    { "name": "20 ft shipping container", "height_mm": 2591, "width_mm": 2438, "depth_mm": 6058, "band": "huge" }
+  ]
+}

@@ -698,7 +698,8 @@ a {
   color: #fff;
 }
 
-.compare-dims {
+.compare-dims,
+.compare-view {
   margin-top: 0.75rem;
 }
 
@@ -748,6 +749,10 @@ a {
   stroke: var(--text-dim);
   stroke-width: 1.5;
   stroke-dasharray: 5 4;
+}
+
+.cmp-pic {
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
 }
 
 .cmp-val {

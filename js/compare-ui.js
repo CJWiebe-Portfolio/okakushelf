@@ -118,47 +118,113 @@ const CompareUI = (function () {
     return `${fmt(found.mm)} · ${C.describe(found.best.ratio, found.key, found.best.item)}`;
   }
 
-  // ---------- the interactive panel ----------
+  // ---------- scale pictures & silhouettes ----------
 
-  function drawScene(stage, key, aMm, bMm, aName, bName) {
+  // Natural width / height of each picture, loaded once. null = missing or broken.
+  const pictureAspects = new Map();
+
+  function loadAspect(src) {
+    if (!src) return Promise.resolve(null);
+    if (!pictureAspects.has(src)) {
+      pictureAspects.set(
+        src,
+        new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : null);
+          img.onerror = () => resolve(null);
+          img.src = src;
+        })
+      );
+    }
+    return pictureAspects.get(src);
+  }
+
+  function cssColor(name, fallback) {
+    const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return v || fallback;
+  }
+
+  // Filters that turn any picture into a solid silhouette (keeps its outline/alpha,
+  // replaces every colour): accent red for the figure, dim grey for the item.
+  function silhouetteDefs() {
+    const defs = svg('defs');
+    [
+      ['cmp-sil-fig', cssColor('--accent', '#da0113')],
+      ['cmp-sil-item', cssColor('--text-dim', '#9a9ab0')],
+    ].forEach(([id, color]) => {
+      const f = svg('filter', { id });
+      f.append(svg('feFlood', { 'flood-color': color, result: 'fill' }));
+      f.append(svg('feComposite', { in: 'fill', in2: 'SourceAlpha', operator: 'in' }));
+      defs.append(f);
+    });
+    return defs;
+  }
+
+  /**
+   * Draw the two things side by side, true to scale. `a` is the figure, `b` the
+   * reference item: { mm, name, image, sil }. `aspects` holds each picture's
+   * width/height (or null). Pictures are only used for height comparisons; a
+   * picture is drawn at the same scale as the ruler (as a solid silhouette when
+   * `sil` is set), and anything without one (or whose picture failed to load)
+   * stays a plain bar.
+   */
+  function drawScene(stage, key, a, b, aspects) {
     stage.textContent = '';
     const vertical = key === 'h';
-    const max = Math.max(aMm, bMm);
+    const max = Math.max(a.mm, b.mm);
     const step = C.tickStepMm(max, unit);
-    const root = svg('svg', {
-      viewBox: vertical ? '0 0 340 310' : '0 0 340 196',
-      class: 'compare-svg',
-      role: 'img',
-      'aria-label': `${aName}, ${fmt(aMm)}, drawn to scale beside ${bName}, ${fmt(bMm)}`,
-    });
     const ticks = [];
     for (let i = 0; i * step <= max * 1.0001; i++) ticks.push(i * step);
+    const label = `${a.name}, ${fmt(a.mm)}, drawn to scale beside ${b.name}, ${fmt(b.mm)}`;
+    let root;
 
     if (vertical) {
       const ground = 262;
       const top = 42;
       const axisX = 46;
+      const gap = 30;
       const scale = (ground - top) / max;
+      const objs = [a, b].map((o, i) => {
+        const h = Math.max(o.mm * scale, 2);
+        const aspect = o.image ? aspects[i] : null;
+        return { ...o, h, pic: !!aspect, w: aspect ? h * aspect : 64, cls: i === 0 ? 'cmp-fig' : 'cmp-item' };
+      });
+      const totalW = objs[0].w + gap + objs[1].w;
+      // Wide pictures widen the drawing (everything shrinks together, so it stays to scale).
+      const vbW = Math.max(340, axisX + 36 + totalW);
+      root = svg('svg', { viewBox: `0 0 ${vbW} 310`, class: 'compare-svg', role: 'img', 'aria-label': label });
+      if (objs.some((o) => o.pic && o.sil)) root.append(silhouetteDefs());
       ticks.forEach((t) => {
         const y = ground - t * scale;
-        root.append(svg('line', { class: 'cmp-grid', x1: axisX, x2: 330, y1: y, y2: y }));
+        root.append(svg('line', { class: 'cmp-grid', x1: axisX, x2: vbW - 10, y1: y, y2: y }));
         root.append(svg('text', { class: 'cmp-tick', x: axisX - 6, y: y + 3.5, 'text-anchor': 'end' }, tickLabel(t)));
       });
       root.append(svg('line', { class: 'cmp-axis', x1: axisX, x2: axisX, y1: top - 10, y2: ground }));
       root.append(svg('text', { class: 'cmp-unit', x: axisX, y: 18, 'text-anchor': 'middle' }, unit));
-      [
-        { mm: aMm, x: 104, cls: 'cmp-fig', name: aName },
-        { mm: bMm, x: 210, cls: 'cmp-item', name: bName },
-      ].forEach((bar) => {
-        const h = Math.max(bar.mm * scale, 2);
-        const title = svg('title', {}, `${bar.name}: ${fmt(bar.mm)}`);
-        const rect = svg('rect', { class: bar.cls, x: bar.x, y: ground - h, width: 64, height: h, rx: 3 });
-        rect.append(title);
-        root.append(rect);
-        root.append(svg('text', { class: 'cmp-val', x: bar.x + 32, y: ground - h - 7, 'text-anchor': 'middle' }, fmt(bar.mm)));
-        root.append(svg('text', { class: 'cmp-name', x: bar.x + 32, y: ground + 20, 'text-anchor': 'middle' }, clip(bar.name)));
+
+      let x = axisX + 10 + (vbW - axisX - 20 - totalW) / 2;
+      objs.forEach((o, i) => {
+        const tip = svg('title', {}, `${o.name}: ${fmt(o.mm)}`);
+        const shape = o.pic
+          ? svg('image', {
+              class: o.sil ? 'cmp-sil' : 'cmp-pic',
+              href: o.image,
+              x,
+              y: ground - o.h,
+              width: o.w,
+              height: o.h,
+              preserveAspectRatio: 'none',
+              ...(o.sil ? { filter: `url(#${i === 0 ? 'cmp-sil-fig' : 'cmp-sil-item'})` } : {}),
+            })
+          : svg('rect', { class: o.cls, x, y: ground - o.h, width: o.w, height: o.h, rx: 3 });
+        shape.append(tip);
+        root.append(shape);
+        root.append(svg('text', { class: 'cmp-val', x: x + o.w / 2, y: ground - o.h - 7, 'text-anchor': 'middle' }, fmt(o.mm)));
+        root.append(svg('text', { class: 'cmp-name', x: x + o.w / 2, y: ground + 20, 'text-anchor': 'middle' }, clip(o.name)));
+        x += o.w + gap;
       });
     } else {
+      root = svg('svg', { viewBox: '0 0 340 196', class: 'compare-svg', role: 'img', 'aria-label': label });
       const left = 24;
       const right = 316;
       const axisY = 150;
@@ -171,8 +237,8 @@ const CompareUI = (function () {
       root.append(svg('line', { class: 'cmp-axis', x1: left, x2: right, y1: axisY, y2: axisY }));
       root.append(svg('text', { class: 'cmp-unit', x: right, y: 182, 'text-anchor': 'end' }, unit));
       [
-        { mm: aMm, y: 30, cls: 'cmp-fig', name: aName },
-        { mm: bMm, y: 92, cls: 'cmp-item', name: bName },
+        { mm: a.mm, y: 30, cls: 'cmp-fig', name: a.name },
+        { mm: b.mm, y: 92, cls: 'cmp-item', name: b.name },
       ].forEach((bar) => {
         const w = Math.max(bar.mm * scale, 2);
         const rect = svg('rect', { class: bar.cls, x: left, y: bar.y, width: w, height: 30, rx: 3 });
@@ -206,7 +272,9 @@ const CompareUI = (function () {
       // Copies, so the person-height slider can't change the shared originals.
       pool: refItems.map((it) => ({ ...it, dims: { ...it.dims } })),
       customCount: 0,
+      view: 'picture',
     };
+    let sceneToken = 0;
     const autoPool = () => state.pool.filter((it) => !it.custom);
     const figMm = () => dims[state.key];
 
@@ -238,6 +306,21 @@ const CompareUI = (function () {
         },
       })
     );
+    const viewBtns = [
+      ['picture', 'Picture'],
+      ['silhouette', 'Silhouette'],
+    ].map(([v, label]) =>
+      el('button', {
+        type: 'button',
+        class: 'seg-btn',
+        text: label,
+        onclick: () => {
+          state.view = v;
+          update();
+        },
+      })
+    );
+    const viewRow = el('div', { class: 'seg compare-view', role: 'group', 'aria-label': 'Picture style' }, ...viewBtns);
     const stage = el('div', { class: 'compare-stage' });
     const caption = el('p', { class: 'compare-caption', 'aria-live': 'polite' });
     const ratioLine = el('p', { class: 'compare-ratio' });
@@ -324,6 +407,7 @@ const CompareUI = (function () {
       { class: 'compare', 'aria-label': 'Size comparison' },
       el('div', { class: 'compare-head' }, el('h3', { text: 'Size comparison' }), el('div', { class: 'seg', role: 'group', 'aria-label': 'Units' }, ...unitBtns)),
       keys.length > 1 ? el('div', { class: 'seg compare-dims', role: 'group', 'aria-label': 'Measurement to compare' }, ...dimBtns) : null,
+      viewRow,
       stage,
       caption,
       ratioLine,
@@ -384,13 +468,31 @@ const CompareUI = (function () {
       }
 
       if (!item) {
+        viewRow.hidden = true;
         stage.textContent = '';
         caption.textContent = `No reference item has a ${C.NAME[key]} yet — try adding your own below.`;
         ratioLine.textContent = '';
       } else {
         const itemMm = item.dims[key];
         const ratio = figMm() / itemMm;
-        drawScene(stage, key, figMm(), itemMm, fig.name, item.name);
+        const figPic = C.cleanImage(fig.scale_image);
+        const figSil = C.cleanImage(fig.silhouette_image);
+        const sil = state.view === 'silhouette';
+        const figImage = sil ? figSil || figPic : figPic || figSil;
+        // An uploaded silhouette is always drawn as a silhouette, even in Picture view.
+        const a = { mm: figMm(), name: fig.name, image: figImage, sil: sil || (!figPic && !!figSil) };
+        const b = { mm: itemMm, name: item.name, image: item.image, sil };
+        const canToggle = key === 'h' && !!(figPic || figSil || item.image);
+        viewRow.hidden = !canToggle;
+        viewBtns.forEach((btn, i) => btn.setAttribute('aria-pressed', String((i === 1) === sil)));
+        const token = ++sceneToken;
+        drawScene(stage, key, a, b, [null, null]);
+        // Height comparisons upgrade to the scale pictures (if any) once they've loaded.
+        if (key === 'h' && (a.image || b.image)) {
+          Promise.all([loadAspect(a.image), loadAspect(b.image)]).then((aspects) => {
+            if (token === sceneToken && (aspects[0] || aspects[1])) drawScene(stage, key, a, b, aspects);
+          });
+        }
         caption.textContent = `At ${fmt(figMm())}, it’s ${C.describe(ratio, key, item)} (${fmt(itemMm)}).`;
         ratioLine.textContent = `Ratio, figure to ${C.displayName(item)}: ${C.ratioLabel(ratio)}`;
       }

@@ -59,6 +59,14 @@
     return KEYS.filter((k) => dims[k] !== null);
   }
 
+  /** A "scale picture" path/URL, or null. Plain image paths and http(s) URLs only. */
+  function cleanImage(src) {
+    if (typeof src !== 'string') return null;
+    const s = src.trim();
+    if (!s || /^(javascript|data|vbscript):/i.test(s)) return null;
+    return s;
+  }
+
   function slug(str) {
     return String(str || '')
       .toLowerCase()
@@ -83,6 +91,7 @@
           band: BANDS.includes(it.band) ? it.band : bandOf(Math.max(...KEYS.map((k) => dims[k] || 0))),
           adjustable: !!it.adjustable,
           custom: !!it.custom,
+          image: cleanImage(it.image),
         };
       });
   }
@@ -250,6 +259,7 @@
     dimsOf,
     availableKeys,
     normalizeItems,
+    cleanImage,
     bandOf,
     candidates,
     nearestFriendly,

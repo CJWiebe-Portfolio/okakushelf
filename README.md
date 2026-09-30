@@ -114,6 +114,41 @@ Edit the item list in the admin under **Shelf → Comparison items**, or in
 tiny < 40 mm, small < 200 mm, medium < 500 mm, large < 1.6 m,
 xlarge < 3 m, huge beyond.
 
+### Scale pictures
+
+Bars are the default, but both sides of the comparison can be a real
+picture drawn at the same scale as the ruler:
+
+- **A figure:** in the admin, upload a **Scale picture** on the figure: a
+  cut-out photo with a transparent background (PNG or WebP), taken
+  straight-on and cropped tight to the figure (base included) so the
+  picture's height equals the **Height (mm)** you entered.
+- **A comparison item:** under **Shelf → Comparison items**, upload a
+  **Scale picture** the same way: cropped so its height matches the item's
+  height.
+
+The picture is stretched to the measured height, so the crop is what makes
+it accurate. Pictures show for **Height** comparisons (the picture's own
+proportions set the width). Width and depth keep the bar view. Without a
+picture, or if it fails to load, you get the bar as before. Item pictures
+are saved in `assets/scale/`; figure cut-outs go in `assets/statues/web/`
+with the other photos.
+
+### Silhouettes
+
+When a scale picture is available, the panel shows a **Picture /
+Silhouette** switch. Silhouette view redraws both sides as solid shapes
+(the figure in the accent colour, the item in grey), which makes the
+difference in size easy to read.
+
+- **Automatic:** with no extra work, the silhouette is made from the
+  transparent scale picture's outline, for the figure and for every item.
+- **Your own:** upload a **Silhouette** on a figure if you'd rather supply
+  the shape (for example to drop fine details or a base). It needs a
+  transparent background and the same crop as the Scale picture, and is
+  always shown as a solid shape. A figure with only a Silhouette (no Scale
+  picture) still works.
+
 ## Running it locally
 
 No build step. From this folder run `python3 -m http.server` and visit

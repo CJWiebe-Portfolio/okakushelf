@@ -90,6 +90,18 @@ collections:
                 min: 1
                 required: false
                 hint: Optional. Front to back, in millimetres.
+              - name: scale_image
+                label: Scale picture
+                widget: image
+                choose_url: false
+                required: false
+                hint: Optional. A cut-out photo of the figure with a transparent background (PNG or WebP), taken straight-on and cropped tight to the figure, base included, so it matches the Height above. Shown at true scale in the size comparison.
+              - name: silhouette_image
+                label: Silhouette
+                widget: image
+                choose_url: false
+                required: false
+                hint: Optional. A solid silhouette of the figure on a transparent background (PNG or WebP), cropped exactly like the Scale picture. Leave it empty and the site makes a silhouette from the Scale picture automatically.
               - name: dateAdded
                 label: Date added
                 widget: datetime
@@ -146,6 +158,14 @@ collections:
                 value_type: float
                 min: 0.1
                 required: false
+              - name: image
+                label: Scale picture
+                widget: image
+                choose_url: false
+                required: false
+                media_folder: /assets/scale
+                public_folder: assets/scale
+                hint: Optional. A straight-on, tightly cropped photo with a transparent background (PNG or WebP), drawn at true scale next to the figure. Crop it so the picture's height is the Height above.
               - name: band
                 label: Size band
                 widget: select

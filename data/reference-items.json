@@ -1,38 +1,265 @@
 {
   "items": [
-    { "name": "Loonie", "height_mm": 26.5, "depth_mm": 1.95, "band": "tiny" },
-    { "name": "Toonie", "height_mm": 28, "depth_mm": 1.75, "band": "tiny" },
-    { "name": "LEGO brick (2x4)", "height_mm": 9.6, "width_mm": 31.8, "depth_mm": 15.8, "band": "tiny" },
-
-    { "name": "Credit card", "height_mm": 53.98, "width_mm": 85.6, "depth_mm": 0.76, "band": "small" },
-    { "name": "AA battery", "height_mm": 50.5, "width_mm": 14.5, "band": "small" },
-    { "name": "Coffee mug", "height_mm": 95, "band": "small" },
-    { "name": "Soda can", "height_mm": 122, "width_mm": 66, "band": "small" },
-    { "name": "Smartphone", "height_mm": 150, "width_mm": 72, "depth_mm": 8, "band": "small" },
-    { "name": "Banana", "height_mm": 180, "band": "small" },
-    { "name": "Pencil", "height_mm": 190, "width_mm": 7, "band": "small" },
-
-    { "name": "A4 sheet", "height_mm": 297, "width_mm": 210, "band": "medium" },
-    { "name": "Basketball", "height_mm": 240, "band": "medium" },
-    { "name": "Bowling pin", "height_mm": 380, "band": "medium" },
-
-    { "name": "Baseball bat", "height_mm": 860, "band": "large" },
-    { "name": "Acoustic guitar", "height_mm": 1000, "width_mm": 380, "depth_mm": 100, "band": "large" },
-    { "name": "Broom", "height_mm": 1300, "band": "large" },
-    { "name": "Hockey stick", "height_mm": 1520, "band": "large" },
-    { "name": "Kitchen counter", "height_mm": 914, "depth_mm": 610, "band": "large" },
-    { "name": "Dining chair", "height_mm": 900, "width_mm": 450, "depth_mm": 500, "band": "large" },
-    { "name": "Dishwasher", "height_mm": 850, "width_mm": 600, "depth_mm": 600, "band": "large" },
-    { "name": "Bathtub", "height_mm": 400, "width_mm": 1524, "depth_mm": 762, "band": "large" },
-
-    { "name": "Person", "height_mm": 1700, "band": "xlarge", "adjustable": true },
-    { "name": "Interior door", "height_mm": 2032, "width_mm": 813, "depth_mm": 35, "band": "xlarge" },
-    { "name": "Fridge", "height_mm": 1750, "width_mm": 700, "depth_mm": 700, "band": "xlarge" },
-    { "name": "3-seat couch", "height_mm": 850, "width_mm": 2000, "depth_mm": 900, "band": "xlarge" },
-    { "name": "Queen bed", "width_mm": 1524, "depth_mm": 2032, "band": "xlarge" },
-    { "name": "Bicycle", "height_mm": 1000, "width_mm": 1700, "band": "xlarge" },
-
-    { "name": "Sedan", "height_mm": 1450, "width_mm": 1800, "depth_mm": 4700, "band": "huge" },
-    { "name": "20 ft shipping container", "height_mm": 2591, "width_mm": 2438, "depth_mm": 6058, "band": "huge" }
+    {
+      "name": "Loonie",
+      "height_mm": 26.5,
+      "width_mm": null,
+      "depth_mm": 1.95,
+      "image": "",
+      "band": "tiny",
+      "adjustable": false
+    },
+    {
+      "name": "Toonie",
+      "height_mm": 28,
+      "width_mm": null,
+      "depth_mm": 1.75,
+      "image": "",
+      "band": "tiny",
+      "adjustable": false
+    },
+    {
+      "name": "LEGO brick (2x4)",
+      "height_mm": 9.6,
+      "width_mm": 31.8,
+      "depth_mm": 15.8,
+      "image": "",
+      "band": "tiny",
+      "adjustable": false
+    },
+    {
+      "name": "Credit card",
+      "height_mm": 53.98,
+      "width_mm": 85.6,
+      "depth_mm": 0.76,
+      "image": "/assets/scale/credit_card_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.webp",
+      "band": "small",
+      "adjustable": false
+    },
+    {
+      "name": "AA battery",
+      "height_mm": 50.5,
+      "width_mm": 14.5,
+      "depth_mm": null,
+      "image": "",
+      "band": "small",
+      "adjustable": false
+    },
+    {
+      "name": "Coffee mug",
+      "height_mm": 95,
+      "width_mm": null,
+      "depth_mm": null,
+      "image": "",
+      "band": "small",
+      "adjustable": false
+    },
+    {
+      "name": "Soda can",
+      "height_mm": 122,
+      "width_mm": 66,
+      "depth_mm": null,
+      "image": "",
+      "band": "small",
+      "adjustable": false
+    },
+    {
+      "name": "Smartphone",
+      "height_mm": 150,
+      "width_mm": 72,
+      "depth_mm": 8,
+      "image": "",
+      "band": "small",
+      "adjustable": false
+    },
+    {
+      "name": "Banana",
+      "height_mm": 180,
+      "width_mm": null,
+      "depth_mm": null,
+      "image": "",
+      "band": "small",
+      "adjustable": false
+    },
+    {
+      "name": "Pencil",
+      "height_mm": 190,
+      "width_mm": 7,
+      "depth_mm": null,
+      "image": "",
+      "band": "small",
+      "adjustable": false
+    },
+    {
+      "name": "A4 sheet",
+      "height_mm": 297,
+      "width_mm": 210,
+      "depth_mm": null,
+      "image": "",
+      "band": "medium",
+      "adjustable": false
+    },
+    {
+      "name": "Basketball",
+      "height_mm": 240,
+      "width_mm": null,
+      "depth_mm": null,
+      "image": "",
+      "band": "medium",
+      "adjustable": false
+    },
+    {
+      "name": "Bowling pin",
+      "height_mm": 380,
+      "width_mm": null,
+      "depth_mm": null,
+      "image": "",
+      "band": "medium",
+      "adjustable": false
+    },
+    {
+      "name": "Baseball bat",
+      "height_mm": 860,
+      "width_mm": null,
+      "depth_mm": null,
+      "image": "",
+      "band": "large",
+      "adjustable": false
+    },
+    {
+      "name": "Acoustic guitar",
+      "height_mm": 1000,
+      "width_mm": 380,
+      "depth_mm": 100,
+      "image": "",
+      "band": "large",
+      "adjustable": false
+    },
+    {
+      "name": "Broom",
+      "height_mm": 1300,
+      "width_mm": null,
+      "depth_mm": null,
+      "image": "",
+      "band": "large",
+      "adjustable": false
+    },
+    {
+      "name": "Hockey stick",
+      "height_mm": 1520,
+      "width_mm": null,
+      "depth_mm": null,
+      "image": "",
+      "band": "large",
+      "adjustable": false
+    },
+    {
+      "name": "Kitchen counter",
+      "height_mm": 914,
+      "width_mm": null,
+      "depth_mm": 610,
+      "image": "",
+      "band": "large",
+      "adjustable": false
+    },
+    {
+      "name": "Dining chair",
+      "height_mm": 900,
+      "width_mm": 450,
+      "depth_mm": 500,
+      "image": "",
+      "band": "large",
+      "adjustable": false
+    },
+    {
+      "name": "Dishwasher",
+      "height_mm": 850,
+      "width_mm": 600,
+      "depth_mm": 600,
+      "image": "",
+      "band": "large",
+      "adjustable": false
+    },
+    {
+      "name": "Bathtub",
+      "height_mm": 400,
+      "width_mm": 1524,
+      "depth_mm": 762,
+      "image": "",
+      "band": "large",
+      "adjustable": false
+    },
+    {
+      "name": "Person",
+      "height_mm": 1700,
+      "width_mm": null,
+      "depth_mm": null,
+      "image": "",
+      "band": "xlarge",
+      "adjustable": true
+    },
+    {
+      "name": "Interior door",
+      "height_mm": 2032,
+      "width_mm": 813,
+      "depth_mm": 35,
+      "image": "",
+      "band": "xlarge",
+      "adjustable": false
+    },
+    {
+      "name": "Fridge",
+      "height_mm": 1750,
+      "width_mm": 700,
+      "depth_mm": 700,
+      "image": "",
+      "band": "xlarge",
+      "adjustable": false
+    },
+    {
+      "name": "3-seat couch",
+      "height_mm": 850,
+      "width_mm": 2000,
+      "depth_mm": 900,
+      "image": "",
+      "band": "xlarge",
+      "adjustable": false
+    },
+    {
+      "name": "Queen bed",
+      "height_mm": null,
+      "width_mm": 1524,
+      "depth_mm": 2032,
+      "image": "",
+      "band": "xlarge",
+      "adjustable": false
+    },
+    {
+      "name": "Bicycle",
+      "height_mm": 1000,
+      "width_mm": 1700,
+      "depth_mm": null,
+      "image": "",
+      "band": "xlarge",
+      "adjustable": false
+    },
+    {
+      "name": "Sedan",
+      "height_mm": 1450,
+      "width_mm": 1800,
+      "depth_mm": 4700,
+      "image": "",
+      "band": "huge",
+      "adjustable": false
+    },
+    {
+      "name": "20 ft shipping container",
+      "height_mm": 2591,
+      "width_mm": 2438,
+      "depth_mm": 6058,
+      "image": "",
+      "band": "huge",
+      "adjustable": false
+    }
   ]
 }
